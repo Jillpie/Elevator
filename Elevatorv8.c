@@ -60,7 +60,6 @@ BACKGROUND:
 //CONFIGUREATION:
 	//safetyPro 								//short for Safety Protocal
 		int elabSPP;							//short for Elaborate Safety Protocal Power
-		int ELABORATESAFETYPRO = 1;				//B1 & B2
 		int ELABORATESAFETYPROPOWER = 1;		//B1 & B2
 
 	//CONSTANTS:
@@ -82,10 +81,8 @@ BACKGROUND:
 			int ELEVATORLIFTOFFTIME = 500;		//Defines the time it takes for the elevator to stop triggering a limitswitchfloor limitsiwtch
 
 		//FailSafePro
-			int ENABLEFAILSAFEPRO = 1;			//B1, If for some reason elevator is between values undefined (i.e. between 1st and 2ed story) then this will bring it back to the next lower story (i.e 1-2 -> 1, 2-3 -> 2)
 			int FAILTIMER = 15000;				//How long it takes for FAILSAFE to activate (in miliseounds?)
-			int FAILSAFESAFE = 0;				//B1, safer failsafe, uses a more primitive version of failsafe incase elaborate failsafe fails to safe
-
+			
 //FUNCTIONS:
 	void elevatorPosition(){							//The Main Input Logic Output for contolling Elevator
 
@@ -228,6 +225,7 @@ BACKGROUND:
 	void failSafePro(){
 		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0){
 			if(time1(T2) >= FAILTIMER){
+				clearTimer(T2);
 				goTo = 1;
 			}
 		}
