@@ -188,15 +188,15 @@ BACKGROUND:
 			}
 
 		//Pauseing at a floor 					//**Without this the elevator will go to a floor and leave to go to the next one...
-			if((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME){
-				clearTimer(T3);					//**B4(Above), Says if the elevator is on any floor and the time the elevator gets to stay on a floor is over then clear the clocks
-				clearTimer(T4);
-			}else{
-				elevatorPositionPower = 0;
-			}
+		//	if((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME){
+		//		clearTimer(T3);					//**B4(Above), Says if the elevator is on any floor and the time the elevator gets to stay on a floor is over then clear the clocks
+		//		clearTimer(T4);
+		//	}else{
+		//		elevatorPositionPower = 0;
+		//	}
 
 		//Acually run the motor
-			startMotor(elevatorMotor,elevatorPositionPower);
+			
 	}
 
 	void lEDIndicator(){
@@ -251,6 +251,9 @@ BACKGROUND:
 			lEDIndicator();
 			//safetyPro();
 			failSafePro();
+
 			elevatorPosition();
+
+			startMotor(elevatorMotor,elevatorPositionPower);
 		}
 	}
