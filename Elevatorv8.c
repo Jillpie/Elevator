@@ -218,6 +218,7 @@ BACKGROUND:
 				if(ELABORATESAFETYPROPOWER == 1){
 					goTo = 1;
 				}
+				clearTimer(T1);
 			}
 		}
 	}
@@ -237,7 +238,7 @@ BACKGROUND:
 		while(true){
 			lEDIndicator();
 			safetyPro();
-			failSafePro();
+			//failSafePro();
 
 			elevatorPosition();
 
