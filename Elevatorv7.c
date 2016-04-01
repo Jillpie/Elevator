@@ -13,6 +13,16 @@
 #pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
 #pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
 
+/*
+Elevatorv7.c is the simple and 3 major attempt useing limit siwtches not encoders and has configureation :
+	Go to a floor when button press: YES
+	Pause on floor: NO
+	Hold button values i.e press all buttons: NO
+	Safety: YES
+	LED Indecators: YES
+
+*/
+
 
 //CONFIGUREATION:
 
@@ -35,6 +45,7 @@
 			int FLOORDURATIONTIME = 5000;
 
 		//ElevatorPosition
+			int elevatorPositionPower;
 			int goTo = 0;
 
 		//FailSafePro
@@ -46,7 +57,6 @@
 //FUNCTIONS:
 
 	elevatorPosition(){
-		int elevatorPositionPower;
 
 		//Interpertaion of button pressess
 			if(SensorValue(limitSwitchFloor1) == 1){
@@ -129,9 +139,8 @@
 	}
 
 	safetyPro(){
-		if((SensorValue(button1) == 0 || SensorValue(button2) == 0 || SensorValue(button3) == 0 || SensorValue(limitSwitch2) != 0 || SensorValue(limitSwitch3) != 0) && time1(T1) >= SAFETYPROTIME && SensorValue(limitSwitch1) == 0 ){
-			clearTimer(T1);
-			while(SensorValue(limitSwitchFloor1) != 0 ){
+		if((SensorValue(button1) == 0 || SensorValue(button2) == 0 || SensorValue(button3) == 0 || SensorValue(limitSwitch2) == 0 || SensorValue(limitSwitch3) == 0 || SensorValue(limitSwitch1) == 0) && SensorValue(limitSwitchFloor1) == 0 ){
+			if(time1(T1) >= SAFETYPROTIME){
 				if(ELABORATESAFETYPROPOWER == 1){
 					elabSPP = (-1 * DIRECTION * NORMALMOTORPOWER);
 					startMotor(elevatorMotor,elabSPP);
@@ -139,6 +148,8 @@
 					startMotor(elevatorMotor,-63);
 				}
 			}
+		}else{
+			clearTimer(T1);
 		}
 	}
 
@@ -154,14 +165,12 @@
 		}
 	}
 
-
 task main(){
 	while(true){
 		lEDIndicator();
 		safetyPro();
 		failSafePro();
 		elevatorPosition();
-
 	}
 }
 
