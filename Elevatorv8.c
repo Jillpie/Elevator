@@ -1,17 +1,16 @@
-//PRAGMA:
-	#pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
-	#pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
-	#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
-	#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
-	#pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
-	#pragma config(Sensor, dgtl6,  button3,              sensorTouch)
-	#pragma config(Sensor, dgtl7,  button2,              sensorTouch)
-	#pragma config(Sensor, dgtl8,  button1,              sensorTouch)
-	#pragma config(Sensor, dgtl9,  limitSwitchFloor1,    sensorTouch)
-	#pragma config(Sensor, dgtl10, lED3,                 sensorLEDtoVCC)
-	#pragma config(Sensor, dgtl11, lED2,                 sensorLEDtoVCC)
-	#pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
-	#pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
+#pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
+#pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
+#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
+#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
+#pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
+#pragma config(Sensor, dgtl6,  button3,              sensorTouch)
+#pragma config(Sensor, dgtl7,  button2,              sensorTouch)
+#pragma config(Sensor, dgtl8,  button1,              sensorTouch)
+#pragma config(Sensor, dgtl9,  limitSwitchFloor1,    sensorTouch)
+#pragma config(Sensor, dgtl10, lED3,                 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl11, lED2,                 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
+#pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
 
 
 /* 
@@ -193,19 +192,19 @@ BACKGROUND:
 
 	lEDIndicator(){
 		if(SensorValue(limitSwitchFloor1) == 1){
-			turnLEDOn(led1);
+			turnLEDOn(lED1);
 		}else{
-			turnLEDOff(led1);
+			turnLEDOff(lED1);
 		}
 		if(SensorValue(limitSwitchFloor2) == 1){
-			turnLEDOn(led2);
+			turnLEDOn(lED2);
 		}else{
-			turnLEDOff(led2);
+			turnLEDOff(lED2);
 		}
 		if(SensorValue(limitSwitchFloor3) == 1){
-			turnLEDOn(led3);
+			turnLEDOn(lED3);
 		}else{
-			turnLEDOff(led3);
+			turnLEDOff(lED3);
 		}
 	}
 
