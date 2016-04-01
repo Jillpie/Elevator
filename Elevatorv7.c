@@ -15,15 +15,24 @@
 
 
 //CONFIGUREATION:
+
+	int SUPERBASICMODE = 0;
+	int BASICMODE = 0;
+
+	//SafetyPro
+		int ELABORATESAFETYPRO = 1;
+		int ELABORATESAFETYPROPOWER = 1;
+
 	//CONSTANTS:
 		//Motor Specifics
-		int HIGHESTMOTORPOWER = 127;
-		int NORMALMOTORPOWER = 63;
-		int LOWESTMOTORPOWER = 21;
+			int DIRECTION = 1; 
+			int HIGHESTMOTORPOWER = 127;
+			int NORMALMOTORPOWER = 63;
+			int LOWESTMOTORPOWER = 21;
 
 		//SafetyPro constants 
-		int SAFETYPROTIME = 20000;
-		int FLOORDURATIONTIME = 5000;
+			int SAFETYPROTIME = 20000;
+			int FLOORDURATIONTIME = 5000;
 
 
 //FUNCTIONS:
@@ -51,7 +60,20 @@
 	}
 
 	safetyPro(){
-		
+		if(ELABORATESAFETYPROPOWER == 1){
+			int elabSPP;
+		}
+		if((SensorValue(button1) != 0 || SensorValue(button2) != 0 || SensorValue(button3) != 0 || SensorValue(limitSwitch1) != 0 || SensorValue(limitSwitch2) != 0 || SensorValue(limitSwitch3) != 0) && time1(T1) >= SAFETYPROTIME){
+			clearTimer(T1);
+			while(ELABORATESAFETYPRO == 0 && SensorValue(limitSwitchFloor1) != 0 ){
+				if(ELABORATESAFETYPROPOWER == 1){
+					elabSPP = (DIRECTION * NORMALMOTORPOWER);
+					startMotor(elevatorMotor,elabSPP);
+				}else{
+					startMotor(elevatorMotor,-63);
+				}
+			}
+		}
 	}
 
 
@@ -60,13 +82,18 @@ task main(){
 	int eButton2;
 	int eButton3;
 
-
 	while(true){
 		eButton1 = (SensorValue(button1) + SensorValue(limitSwitch1));
 		eButton2 = (SensorValue(button2) + SensorValue(limitSwitch2));
 		eButton3 = (SensorValue(button3) + SensorValue(limitSwitch3));
 
 		lEDIndicator();
+		safetyPro();
 
 	}
 }
+
+
+
+
+
