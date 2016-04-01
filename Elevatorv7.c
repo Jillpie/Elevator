@@ -16,8 +16,10 @@
 
 //CONFIGUREATION:
 
+	int FULLELABORATE;
 	int SUPERBASICMODE = 0;
 	int BASICMODE = 0;
+	int SAFEMODE = 0;
 
 	//SafetyPro
 		int ELABORATESAFETYPRO = 1;
@@ -26,19 +28,86 @@
 	//CONSTANTS:
 		//Motor Specifics
 			int DIRECTION = 1; 
-			int HIGHESTMOTORPOWER = 127;
 			int NORMALMOTORPOWER = 63;
-			int LOWESTMOTORPOWER = 21;
 
 		//SafetyPro constants 
 			int SAFETYPROTIME = 20000;
 			int FLOORDURATIONTIME = 5000;
 
+		//ElevatorPosition
+			int goTo = 0;
+
+		//FailSafePro
+			int ENABLEFAILSAFEPRO = 1;
+			int FAILTIMER = 15000;
+			int FAILSAFESAFE = 0;
+
 
 //FUNCTIONS:
 
 	elevatorPosition(int floor){
+		int elevatorPositionPower;
 
+		//Interpertaion of button pressess
+			if(SensorValue(limitSwitchFloor1) == 1){
+				if(SensorValue(limitSwitch2) != 0 || SensorValue(button2) != 0){
+					goTo = 12;
+				}
+				if(SensorValue(limitSwitch3) != 0 || SensorValue(button3) != 0){
+					goTo = 3;
+				}
+			}
+			if(SensorValue(limitSwitchFloor2) == 1){
+				if(SensorValue(limitSwitch1) != 0 || SensorValue(button1) != 0){
+					goTo = 1;
+				}
+				if(SensorValue(limitSwitch3) != 0 || SensorValue(button3) != 0){
+					goTo = 3;
+				}
+			}
+			if(SensorValue(limitSwitchFloor3) == 1){
+				if(SensorValue(limitSwitch2) != 0 || SensorValue(button2) != 0){
+					goTo = 32;
+				}
+				if(SensorValue(limitSwitch1) != 0 || SensorValue(button1) != 0){
+					goTo = 1;
+				}
+			}
+
+		//Asignments to motor vectors
+			if(goTo == 1){
+				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch1) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 12){
+				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch2) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 32){
+				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch2) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 3){
+				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch3) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 0){
+				elevatorPositionPower = 0;
+			}
+
+		startMotor(elevatorMotor,elevatorPositionPower);
 	}
 
 	lEDIndicator(){
@@ -76,11 +145,26 @@
 		}
 	}
 
+	failSafePro(){
+		if(limitSwitchFloor1 == 0 && limitSwitchFloor2 == 0 && limitSwitchFloor3 == 0 && time1(T2) >= FAILTIMER){
+			if(FAILSAFESAFE == 1){
+				startMotor(elevatorMotor, -63);
+			}else{
+				startMotor(elevatorMotor,(-DIRECTION * NORMALMOTORPOWER));
+			}
+		}else{
+			clearTimer(T2);
+		}
+
+	}
+
 
 task main(){
 	int eButton1;
 	int eButton2;
 	int eButton3;
+
+	clearTimer(T1);
 
 	while(true){
 		eButton1 = (SensorValue(button1) + SensorValue(limitSwitch1));
@@ -89,6 +173,7 @@ task main(){
 
 		lEDIndicator();
 		safetyPro();
+		failSafePro();
 
 	}
 }
