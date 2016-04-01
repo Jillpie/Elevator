@@ -1,25 +1,27 @@
-#pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
-#pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
-#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
-#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
-#pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
-#pragma config(Sensor, dgtl6,  button3,              sensorTouch)
-#pragma config(Sensor, dgtl7,  button2,              sensorTouch)
-#pragma config(Sensor, dgtl8,  button1,              sensorTouch)
-#pragma config(Sensor, dgtl9,  limitSwitchFloor1,    sensorTouch)
-#pragma config(Sensor, dgtl10, lED3,                 sensorLEDtoVCC)
-#pragma config(Sensor, dgtl11, lED2,                 sensorLEDtoVCC)
-#pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
-#pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
+//PRAGMA:
+	#pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
+	#pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
+	#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
+	#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
+	#pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
+	#pragma config(Sensor, dgtl6,  button3,              sensorTouch)
+	#pragma config(Sensor, dgtl7,  button2,              sensorTouch)
+	#pragma config(Sensor, dgtl8,  button1,              sensorTouch)
+	#pragma config(Sensor, dgtl9,  limitSwitchFloor1,    sensorTouch)
+	#pragma config(Sensor, dgtl10, lED3,                 sensorLEDtoVCC)
+	#pragma config(Sensor, dgtl11, lED2,                 sensorLEDtoVCC)
+	#pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
+	#pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
 
-/*
-Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoders and has configureation:
-	Go to a floor when button press: YES
-	Pause on floor: YES
-	Hold button values i.e press all buttons: YES
-	Safety: YES
-	LED Indecators: YES
 
+/* 
+ABSTRACT:
+	Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoders and has configureation:
+		Go to a floor when button press: YES
+		Pause on floor: YES
+		Hold button values i.e press all buttons: YES
+		Safety: YES
+		LED Indecators: YES
 */
 
 
@@ -31,7 +33,7 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 
 	//CONSTANTS:
 		//Motor Specifics
-			int DIRECTION = 1; 
+			int DIRECTION = 1;
 			int NORMALMOTORPOWER = 63;
 
 		//SafetyPro constants 
@@ -43,8 +45,8 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 			int eButton2;
 			int eButton3;
 			int elevatorPositionPower;
-			int goTo = 0;
-			int currentDir = 1;
+			int goTo;
+			int currentDir;
 			int ELEVATORSTAYTIME = 5000;
 			int ELEVATORLIFTOFFTIME = 1000;
 
@@ -154,7 +156,8 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 				elevatorPositionPower = 0;
 			}
 
-		startMotor(elevatorMotor,elevatorPositionPower);
+		//Acually run the motor
+			startMotor(elevatorMotor,elevatorPositionPower);
 	}
 
 	lEDIndicator(){
@@ -202,13 +205,13 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 		}
 	}
 
-task main(){
-	while(true){
-		lEDIndicator();
-		safetyPro();
-		failSafePro();
-		elevatorPosition();
+
+//MAIN:
+	task main(){
+		while(true){
+			lEDIndicator();
+			safetyPro();
+			failSafePro();
+			elevatorPosition();
+		}
 	}
-}
-
-
