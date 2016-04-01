@@ -1,6 +1,5 @@
 #pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
 #pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
-//#pragma config(Sensor, dgtl3,  encoder,            sensorQuadEncoder)
 #pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
 #pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
 #pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
@@ -25,11 +24,6 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 
 
 //CONFIGUREATION:
-
-	int SUPERBASICMODE = 0;
-	int BASICMODE = 0;
-	int SAFEMODE = 0;
-
 	//SafetyPro
 		int elabSPP;
 		int ELABORATESAFETYPRO = 1;
@@ -45,7 +39,6 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 			int FLOORDURATIONTIME = 5000;
 
 		//ElevatorPosition
-			int fakeRand = 0;
 			int eButton1;
 			int eButton2;
 			int eButton3;
@@ -62,71 +55,6 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 
 
 //FUNCTIONS:
-	/*
-	elevatorPosition(){
-
-		//Interpertaion of button pressess
-			if(SensorValue(limitSwitchFloor1) == 1){
-				if(SensorValue(limitSwitch2) != 0 || SensorValue(button2) != 0){
-					goTo = 12;
-				}
-				if(SensorValue(limitSwitch3) != 0 || SensorValue(button3) != 0){
-					goTo = 3;
-				}
-			}
-			if(SensorValue(limitSwitchFloor2) == 1){
-				if(SensorValue(limitSwitch1) != 0 || SensorValue(button1) != 0){
-					goTo = 1;
-				}
-				if(SensorValue(limitSwitch3) != 0 || SensorValue(button3) != 0){
-					goTo = 3;
-				}
-			}
-			if(SensorValue(limitSwitchFloor3) == 1){
-				if(SensorValue(limitSwitch2) != 0 || SensorValue(button2) != 0){
-					goTo = 32;
-				}
-				if(SensorValue(limitSwitch1) != 0 || SensorValue(button1) != 0){
-					goTo = 1;
-				}
-			}
-
-		//Asignments to motor vectors
-			if(goTo == 1){
-				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
-
-				if(SensorValue(limitSwitch1) == 1){
-					goTo = 0;
-				}
-			}
-			if(goTo == 12){
-				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
-
-				if(SensorValue(limitSwitch2) == 1){
-					goTo = 0;
-				}
-			}
-			if(goTo == 32){
-				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
-
-				if(SensorValue(limitSwitch2) == 1){
-					goTo = 0;
-				}
-			}
-			if(goTo == 3){
-				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
-
-				if(SensorValue(limitSwitch3) == 1){
-					goTo = 0;
-				}
-			}
-			if(goTo == 0){
-				elevatorPositionPower = 0;
-			}
-
-		startMotor(elevatorMotor,elevatorPositionPower);
-	}
-	*/
 	elevatorPosition(){
 
 		//Latches (forgot the proper term)
