@@ -103,6 +103,15 @@ BACKGROUND:
 			if(SensorValue(button3) == 1 || SensorValue(limitSwitch3) == 1){
 				eButton3 = 1;
 			}
+			if(SensorValue(limitSwitchFloor1) == 1){
+				eButton1 = 0;
+			}
+			if(SensorValue(limitSwitchFloor2) == 1){
+				eButton2 = 0;
+			}
+			if(SensorValue(limitSwitchFloor3) == 1){
+				eButton3 = 0;
+			}
 
 		//currentDir 							//*Accounts for diffnert directions, allows i.e if you are going to 3rd from 1st and press 2 before reached 2ed sotry then it'll stop at 2ed story before thrid 
 			if(SensorValue(limitSwitchFloor1) == 1){		//assigns currentDir = 1 if elevator is on first story 
