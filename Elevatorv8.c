@@ -179,7 +179,7 @@ BACKGROUND:
 			}
 
 		//Pauseing at a floor 					//**Without this the elevator will go to a floor and leave to go to the next one...
-			if(((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME){
+			if((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME){
 				clearTimer(T3);					//**B4(Above), Says if the elevator is on any floor and the time the elevator gets to stay on a floor is over then clear the clocks
 				clearTimer(T4);
 			}else{
@@ -224,7 +224,7 @@ BACKGROUND:
 	}
 
 	void failSafePro(){
-		if(limitSwitchFloor1 == 0 && limitSwitchFloor2 == 0 && limitSwitchFloor3 == 0 && time1(T2) >= FAILTIMER){
+		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0 && time1(T2) >= FAILTIMER){
 			if(FAILSAFESAFE == 1){
 				startMotor(elevatorMotor, -63);
 			}else{
