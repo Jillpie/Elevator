@@ -87,7 +87,7 @@ BACKGROUND:
 			int FAILSAFESAFE = 0;				//B1, safer failsafe, uses a more primitive version of failsafe incase elaborate failsafe fails to safe
 
 //FUNCTIONS:
-	elevatorPosition(){							//The Main Input Logic Output for contolling Elevator
+	void elevatorPosition(){							//The Main Input Logic Output for contolling Elevator
 
 		//Latches (forgot the proper term)		//**Sets up the laches "eButton" Explaind in background 
 			if(SensorValue(button1) == 1 || SensorValue(limitSwitch1) == 1){	//B3, if call button or floor button is pressed then lach is set 
@@ -190,7 +190,7 @@ BACKGROUND:
 			startMotor(elevatorMotor,elevatorPositionPower);
 	}
 
-	lEDIndicator(){
+	void lEDIndicator(){
 		if(SensorValue(limitSwitchFloor1) == 1){
 			turnLEDOn(lED1);
 		}else{
@@ -208,7 +208,7 @@ BACKGROUND:
 		}
 	}
 
-	safetyPro(){
+	void safetyPro(){
 		if((SensorValue(button1) == 0 || SensorValue(button2) == 0 || SensorValue(button3) == 0 || SensorValue(limitSwitch2) == 0 || SensorValue(limitSwitch3) == 0 || SensorValue(limitSwitch1) == 0) && SensorValue(limitSwitchFloor1) == 0 ){
 			if(time1(T1) >= SAFETYPROTIME){
 				if(ELABORATESAFETYPROPOWER == 1){
@@ -223,7 +223,7 @@ BACKGROUND:
 		}
 	}
 
-	failSafePro(){
+	void failSafePro(){
 		if(limitSwitchFloor1 == 0 && limitSwitchFloor2 == 0 && limitSwitchFloor3 == 0 && time1(T2) >= FAILTIMER){
 			if(FAILSAFESAFE == 1){
 				startMotor(elevatorMotor, -63);
