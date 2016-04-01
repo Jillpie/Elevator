@@ -16,8 +16,8 @@
 /*
 Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoders and has configureation:
 	Go to a floor when button press: YES
-	Pause on floor: NO
-	Hold button values i.e press all buttons: NO
+	Pause on floor: YES
+	Hold button values i.e press all buttons: YES
 	Safety: YES
 	LED Indecators: YES
 
@@ -45,8 +45,15 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 			int FLOORDURATIONTIME = 5000;
 
 		//ElevatorPosition
+			int fakeRand = 0;
+			int eButton1;
+			int eButton2;
+			int eButton3;
 			int elevatorPositionPower;
 			int goTo = 0;
+			int currentDir = 1;
+			int ELEVATORSTAYTIME = 5000;
+			int ELEVATORLIFTOFFTIME = 1000;
 
 		//FailSafePro
 			int ENABLEFAILSAFEPRO = 1;
@@ -55,7 +62,7 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 
 
 //FUNCTIONS:
-
+	/*
 	elevatorPosition(){
 
 		//Interpertaion of button pressess
@@ -114,6 +121,108 @@ Elevatorv8.c is the simple and 3 major attempt useing limit siwtches not encoder
 				}
 			}
 			if(goTo == 0){
+				elevatorPositionPower = 0;
+			}
+
+		startMotor(elevatorMotor,elevatorPositionPower);
+	}
+	*/
+	elevatorPosition(){
+
+		//Latches (forgot the proper term)
+			if(SensorValue(button1) == 1 || SensorValue(limitSwitch1) == 1){
+				eButton1 = 1;
+			}
+			if(SensorValue(button2) == 1 || SensorValue(limitSwitch2) == 1){
+				eButton2 = 1;
+			}
+			if(SensorValue(button3) == 1 || SensorValue(limitSwitch3) == 1){
+				eButton3 = 1;
+			}
+
+		//CurrentDir
+			if(SensorValue(limitSwitchFloor1) == 1){
+				currentDir = 1;
+			}else if(SensorValue(limitSwitchFloor2) == 1){
+				currentDir = 2;
+			}else if(SensorValue(limitSwitchFloor3) == 1){
+				currentDir = 3;
+			}else if(goTo == 3){
+				currentDir = 8;
+			}else if(goTo == 1){
+				currentDir = 9;
+			}
+
+
+
+		//Interpertaion of button pressess
+			if(SensorValue(limitSwitchFloor1) == 1){
+				if(eButton2 == 1){
+					goTo = 12;
+				}
+				if(eButton3 == 1){
+					goTo = 3;
+				}
+			}
+			if(SensorValue(limitSwitchFloor2) == 1){
+				if(eButton1 == 1){
+					goTo = 1;
+				}
+				if(eButton3 == 1){
+					goTo = 3;
+				}
+			}
+			if(SensorValue(limitSwitchFloor3) == 1){
+				if(eButton2 == 1){
+					goTo = 32;
+				}
+				if(eButton1 == 1){
+					goTo = 1;
+				}
+			}
+			if(currentDir == 8 && eButton2 == 1 && SensorValue(limitSwitchFloor2) == 1){
+				goTo = 12;
+			}
+			if(currentDir == 9 && eButton2 == 1 && SensorValue(limitSwitchFloor2) == 1){
+				goTo = 32;
+			}
+
+		//Asignments to motor vectors
+			if(goTo == 1){
+				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch1) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 12){
+				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch2) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 32){
+				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch2) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 3){
+				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+
+				if(SensorValue(limitSwitch3) == 1){
+					goTo = 0;
+				}
+			}
+			if(goTo == 0){
+				elevatorPositionPower = 0;
+			}
+			if(((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME) && time1(T4) >= ELEVATORLIFTOFFTIME){
+				clearTimer(T3);
+				clearTimer(T4);
+			}else{
 				elevatorPositionPower = 0;
 			}
 
