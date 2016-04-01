@@ -16,12 +16,12 @@
 
 //CONFIGUREATION:
 
-	int FULLELABORATE;
 	int SUPERBASICMODE = 0;
 	int BASICMODE = 0;
 	int SAFEMODE = 0;
 
 	//SafetyPro
+		int elabSPP;
 		int ELABORATESAFETYPRO = 1;
 		int ELABORATESAFETYPROPOWER = 1;
 
@@ -45,7 +45,7 @@
 
 //FUNCTIONS:
 
-	elevatorPosition(int floor){
+	elevatorPosition(){
 		int elevatorPositionPower;
 
 		//Interpertaion of button pressess
@@ -129,14 +129,11 @@
 	}
 
 	safetyPro(){
-		if(ELABORATESAFETYPROPOWER == 1){
-			int elabSPP;
-		}
-		if((SensorValue(button1) != 0 || SensorValue(button2) != 0 || SensorValue(button3) != 0 || SensorValue(limitSwitch1) != 0 || SensorValue(limitSwitch2) != 0 || SensorValue(limitSwitch3) != 0) && time1(T1) >= SAFETYPROTIME){
+		if((SensorValue(button1) == 0 || SensorValue(button2) == 0 || SensorValue(button3) == 0 || SensorValue(limitSwitch2) != 0 || SensorValue(limitSwitch3) != 0) && time1(T1) >= SAFETYPROTIME && SensorValue(limitSwitch1) == 0 ){
 			clearTimer(T1);
-			while(ELABORATESAFETYPRO == 0 && SensorValue(limitSwitchFloor1) != 0 ){
+			while(SensorValue(limitSwitchFloor1) != 0 ){
 				if(ELABORATESAFETYPROPOWER == 1){
-					elabSPP = (DIRECTION * NORMALMOTORPOWER);
+					elabSPP = (-1 * DIRECTION * NORMALMOTORPOWER);
 					startMotor(elevatorMotor,elabSPP);
 				}else{
 					startMotor(elevatorMotor,-63);
@@ -155,30 +152,17 @@
 		}else{
 			clearTimer(T2);
 		}
-
 	}
 
 
 task main(){
-	int eButton1;
-	int eButton2;
-	int eButton3;
-
-	clearTimer(T1);
-
 	while(true){
-		eButton1 = (SensorValue(button1) + SensorValue(limitSwitch1));
-		eButton2 = (SensorValue(button2) + SensorValue(limitSwitch2));
-		eButton3 = (SensorValue(button3) + SensorValue(limitSwitch3));
-
 		lEDIndicator();
 		safetyPro();
 		failSafePro();
+		elevatorPosition();
 
 	}
 }
-
-
-
 
 
