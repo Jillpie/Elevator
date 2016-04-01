@@ -1,7 +1,7 @@
 #pragma config(Sensor, dgtl1,  limitSwitch1,         sensorTouch)
 #pragma config(Sensor, dgtl2,  limitSwitch2,         sensorTouch)
-#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorQuadEncoder)
-#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorQuadEncoder)
+#pragma config(Sensor, dgtl3,  limitSwitchFloor2,    sensorTouch)
+#pragma config(Sensor, dgtl4,  limitSwitchFloor3,    sensorTouch)
 #pragma config(Sensor, dgtl5,  limitSwitch3,         sensorTouch)
 #pragma config(Sensor, dgtl6,  button3,              sensorTouch)
 #pragma config(Sensor, dgtl7,  button2,              sensorTouch)
@@ -58,10 +58,6 @@ BACKGROUND:
 	*/ 
 
 //CONFIGUREATION:
-	//DEBUG:
-		int limitswitchFloor1Stat;
-		int limitswitchFloor2Stat;
-		int limitswitchFloor3Stat;
 	//safetyPro 								//short for Safety Protocal
 		int elabSPP;							//short for Elaborate Safety Protocal Power
 		int ELABORATESAFETYPRO = 1;				//B1 & B2
@@ -252,14 +248,8 @@ BACKGROUND:
 //MAIN:
 	task main(){
 		while(true){
-			//DEBUG
-				limitswitchFloor3Stat = SensorValue(limitSwitchFloor3);
-				limitswitchFloor2Stat = SensorValue(limitSwitchFloor2);
-				limitswitchFloor1Stat = SensorValue(limitSwitchFloor1);
-
-
 			lEDIndicator();
-			safetyPro();
+			//safetyPro();
 			failSafePro();
 			elevatorPosition();
 		}
