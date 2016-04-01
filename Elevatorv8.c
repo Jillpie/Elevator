@@ -99,13 +99,16 @@ BACKGROUND:
 			if(SensorValue(button3) == 1 || SensorValue(limitSwitch3) == 1){
 				eButton3 = 1;
 			}
-			if(SensorValue(limitSwitchFloor1) == 1){
+			if(SensorValue(limitSwitchFloor1) == 1 && eButton1 == 1){
+				clearTimer(T3);
 				eButton1 = 0;
 			}
-			if(SensorValue(limitSwitchFloor2) == 1){
+			if(SensorValue(limitSwitchFloor2) == 1 && eButton2 == 1){
+				clearTimer(T3);
 				eButton2 = 0;
 			}
-			if(SensorValue(limitSwitchFloor3) == 1){
+			if(SensorValue(limitSwitchFloor3) == 1 && eButton3 == 1){
+				clearTimer(T3);
 				eButton3 = 0;
 			}
 
@@ -188,14 +191,9 @@ BACKGROUND:
 			}
 
 		//Pauseing at a floor 					//**Without this the elevator will go to a floor and leave to go to the next one...
-		//	if((SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1 || SensorValue(limitSwitchFloor1)  == 1) && time1(T3) >= ELEVATORSTAYTIME){
-		//		clearTimer(T3);					//**B4(Above), Says if the elevator is on any floor and the time the elevator gets to stay on a floor is over then clear the clocks
-		//		clearTimer(T4);
-		//	}else{
-		//		elevatorPositionPower = 0;
-		//	}
-
-		//Acually run the motor
+			if(time1(T3) <= ELEVATORSTAYTIME){
+				elevatorPositionPower = 0;
+			}
 			
 	}
 
@@ -218,29 +216,20 @@ BACKGROUND:
 	}
 
 	void safetyPro(){
-		if((SensorValue(button1) == 0 || SensorValue(button2) == 0 || SensorValue(button3) == 0 || SensorValue(limitSwitch2) == 0 || SensorValue(limitSwitch3) == 0 || SensorValue(limitSwitch1) == 0) && SensorValue(limitSwitchFloor1) == 0 ){
+		if(SensorValue(button1) == 1 || SensorValue(button2) == 1 || SensorValue(button3) == 1 || SensorValue(limitSwitch2) == 1 || SensorValue(limitSwitch3) == 1 || SensorValue(limitSwitch1) == 1 || SensorValue(limitSwitchFloor1) == 0 ){
 			if(time1(T1) >= SAFETYPROTIME){
 				if(ELABORATESAFETYPROPOWER == 1){
-					elabSPP = (-1 * DIRECTION * NORMALMOTORPOWER);
-					startMotor(elevatorMotor,elabSPP);
-				}else{
-					startMotor(elevatorMotor,-63);
+					goTo = 1;
 				}
 			}
-		}else{
-			clearTimer(T1);
 		}
 	}
 
 	void failSafePro(){
-		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0 && time1(T2) >= FAILTIMER){
-			if(FAILSAFESAFE == 1){
-				startMotor(elevatorMotor, -63);
-			}else{
-				startMotor(elevatorMotor,(-DIRECTION * NORMALMOTORPOWER));
+		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0){
+			if(time1(T2) >= FAILTIMER){
+				goTo = 1;
 			}
-		}else{
-			clearTimer(T2);
 		}
 	}
 
@@ -249,7 +238,7 @@ BACKGROUND:
 	task main(){
 		while(true){
 			lEDIndicator();
-			//safetyPro();
+			safetyPro();
 			failSafePro();
 
 			elevatorPosition();
