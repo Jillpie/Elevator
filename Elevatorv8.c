@@ -6,10 +6,10 @@
 #pragma config(Sensor, dgtl6,  button3,              sensorTouch)
 #pragma config(Sensor, dgtl7,  button2,              sensorTouch)
 #pragma config(Sensor, dgtl8,  button1,              sensorTouch)
-#pragma config(Sensor, dgtl9,  limitSwitchFloor1,    sensorTouch)
-#pragma config(Sensor, dgtl10, lED3,                 sensorLEDtoVCC)
-#pragma config(Sensor, dgtl11, lED2,                 sensorLEDtoVCC)
-#pragma config(Sensor, dgtl12, lED1,                 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl9,  lED3,   				 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl10, lED2,                 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl11, lED1,                 sensorLEDtoVCC)
+#pragma config(Sensor, dgtl12, limitSwitchFloor1,    sensorTouch)
 #pragma config(Motor,  port2, elevatorMotor,         tmotorVex393_MC29, openLoop)
 
 
@@ -58,6 +58,10 @@ BACKGROUND:
 	*/ 
 
 //CONFIGUREATION:
+	//DEBUG:
+		int limitswitchFloor1Stat;
+		int limitswitchFloor2Stat;
+		int limitswitchFloor3Stat;
 	//safetyPro 								//short for Safety Protocal
 		int elabSPP;							//short for Elaborate Safety Protocal Power
 		int ELABORATESAFETYPRO = 1;				//B1 & B2
@@ -239,6 +243,12 @@ BACKGROUND:
 //MAIN:
 	task main(){
 		while(true){
+			//DEBUG
+				limitswitchFloor3Stat = SensorValue(limitSwitchFloor3);
+				limitswitchFloor2Stat = SensorValue(limitSwitchFloor2);
+				limitswitchFloor1Stat = SensorValue(limitSwitchFloor1);
+
+
 			lEDIndicator();
 			safetyPro();
 			failSafePro();
