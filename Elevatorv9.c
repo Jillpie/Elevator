@@ -63,23 +63,22 @@ BACKGROUND:
 
 	//CONSTANTS:
 		//Motor Specifics
-			int DIRECTION = 1;					//Changes Spin of motor if incorect, though should be correct as is
 			int NORMALMOTORPOWER = 63;			//The default speed everyhting in the program wil lthe the motor value to Unless its running non-elaborate mode.
 
 		//SafetyPro constants 
 			int SAFETYPROTIME = 20000;			//**Is the User defined period of nonuse (in milisecounds?)
 
 		//ElevatorPosition
-			int eButton1;						//B3, initlizing global ints explained latter...
-			int eButton2;
-			int eButton3;
+			bool eButton1;						//B3, initlizing global ints explained latter...
+			bool eButton2;
+			bool eButton3;
 			int elevatorPositionPower;			//B3, initlizing global ints explained latter...	
 			int goTo;
 			int currentDir;
 			int ELEVATORSTAYTIME = 5000;		//*Defines the amount of time the Elevator stays on a floor (in miliseounds?)
 			
 		//FailSafePro
-			int FAILTIMER = 15000;				//How long it takes for FAILSAFE to activate (in miliseounds?)
+			int FAILTIMER = 15000;				//How long it takes for FAILSAFE to activate in miliseounds
 			
 //FUNCTIONS:
 	void elevatorPosition(){							//The Main Input Logic Output for contolling Elevator
@@ -154,28 +153,28 @@ BACKGROUND:
 
 		//Asignments to motor vectors			//**Main Routing of computing inputs to now setting outputs
 			if(goTo == 1){														//**B3 Interpertaion of Button PRessess gave us goTo values, now we'll be useing them to decide the outputs
-				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);	//if goto == 1 that means go to floor 1 (from either 2 or 3 )so that menas we're goign down in such we havea negitive direction at the power of NORMALPOWER
+				elevatorPositionPower = (-1 * NORMALMOTORPOWER);	//if goto == 1 that means go to floor 1 (from either 2 or 3 )so that menas we're goign down in such we havea negitive direction at the power of NORMALPOWER
 
 				if(SensorValue(limitSwitchFloor1) == 1){						//goto was also a lach... this is the reset for the goto lach, once it reaches its goal of floor one it'll hit a swich on floor one indecating the goto is no longer nessary 
 					goTo = 0;
 				}
 			}
 			if(goTo == 12){
-				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+				elevatorPositionPower = (NORMALMOTORPOWER);
 
 				if(SensorValue(limitSwitchFloor2) == 1){
 					goTo = 0;
 				}
 			}
-			if(goTo == 32){
-				elevatorPositionPower = (-1 * DIRECTION * NORMALMOTORPOWER);
+			if(goTo == 32){lED1
+				elevatorPositionPower = (-1 * NORMALMOTORPOWER);
 
 				if(SensorValue(limitSwitchFloor2) == 1){
 					goTo = 0;
 				}
 			}
 			if(goTo == 3){
-				elevatorPositionPower = (DIRECTION * NORMALMOTORPOWER);
+				elevatorPositionPower = (NORMALMOTORPOWER);
 
 				if(SensorValue(limitSwitchFloor3) == 1){
 					goTo = 0;
