@@ -224,6 +224,8 @@ BACKGROUND:
 				clearTimer(T2);
 				goTo = 1;
 			}
+		}else{
+			clearTimer(T2);
 		}
 	}
 
@@ -233,10 +235,8 @@ BACKGROUND:
 		while(true){
 			lEDIndicator();
 			safetyPro();
-			//failSafePro();
-
+			failSafePro();
 			elevatorPosition();
-
 			startMotor(elevatorMotor,elevatorPositionPower);
 		}
 	}
