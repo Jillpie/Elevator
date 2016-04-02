@@ -60,7 +60,6 @@ BACKGROUND:
 //CONFIGUREATION:
 	//safetyPro 								//short for Safety Protocal
 		int elabSPP;							//short for Elaborate Safety Protocal Power
-		int ELABORATESAFETYPROPOWER = 1;		//B1 & B2
 
 	//CONSTANTS:
 		//Motor Specifics
@@ -78,8 +77,7 @@ BACKGROUND:
 			int goTo;
 			int currentDir;
 			int ELEVATORSTAYTIME = 5000;		//*Defines the amount of time the Elevator stays on a floor (in miliseounds?)
-			int ELEVATORLIFTOFFTIME = 500;		//Defines the time it takes for the elevator to stop triggering a limitswitchfloor limitsiwtch
-
+			
 		//FailSafePro
 			int FAILTIMER = 15000;				//How long it takes for FAILSAFE to activate (in miliseounds?)
 			
@@ -215,9 +213,7 @@ BACKGROUND:
 	void safetyPro(){
 		if(SensorValue(button1) == 1 || SensorValue(button2) == 1 || SensorValue(button3) == 1 || SensorValue(limitSwitch2) == 1 || SensorValue(limitSwitch3) == 1 || SensorValue(limitSwitch1) == 1 || SensorValue(limitSwitchFloor1) == 0 ){
 			if(time1(T1) >= SAFETYPROTIME){
-				if(ELABORATESAFETYPROPOWER == 1){
-					goTo = 1;
-				}
+				goTo = 1;
 				clearTimer(T1);
 			}
 		}
