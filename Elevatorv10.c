@@ -78,6 +78,7 @@ BACKGROUND:
 
 		//FailSafePro
 			int FAILTIMER = 25000;				//How long it takes for FAILSAFE to activate (in miliseounds?)
+			int FAILTIMERMOTOR = 3000;
 
 //FUNCTIONS:
 	void elevatorPosition(){							//The Main Input Logic Output for contolling Elevator
@@ -228,6 +229,7 @@ BACKGROUND:
 		}
 	}
 
+/*
 	void failSafePro(){
 		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0){
 			if(time1(T2) >= FAILTIMER){
@@ -237,7 +239,23 @@ BACKGROUND:
 			clearTimer(T2);
 		}
 	}
-
+*/
+	void failSafePro(){
+		if(SensorValue(limitSwitchFloor1) == 0 && SensorValue(limitSwitchFloor2) == 0 && SensorValue(limitSwitchFloor3) == 0){
+			if(time1(T2) >= FAILTIMER){
+				goTo = 1;
+			}
+		}else{
+			clearTimer(T2);
+		}
+		if(elevatorPositionPower != 0 && SensorValue(limitSwitchFloor3) == 1){
+			if(time1(T3) >= FAILTIMERMOTOR){
+				goTo = 1;
+			}
+		}else{
+			clearTimer(T3);
+		}
+	}
 
 //MAIN:
 	task main(){
